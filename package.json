@@ -1,16 +1,21 @@
 {
   "private": true,
-  "displayName": "Plugin Name",
-  "name": "homebridge-plugin-name",
+  "displayName": "Climate Controller",
+  "name": "homebridge-climate-controller",
   "version": "1.0.0",
-  "description": "A short description about what your plugin does.",
+  "author": {
+    "name": "Ben Marten",
+    "email": "ben.marten@me.com",
+    "url": "https://github.com/benmarten"
+  },
+  "description": "Controls Humidifer switch & displays temperature & humidity.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "https://github.com/benmarten/homebridge-temperature-humidity.git"
   },
   "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
+    "url": "https://github.com/benmarten/homebridge-temperature-humidity/issues"
   },
   "engines": {
     "node": "^18.17.0 || ^20.9.0",

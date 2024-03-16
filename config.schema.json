@@ -1,15 +1,21 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "ClimateControllerPlugin",
   "pluginType": "platform",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
+      "humidifier_ip": {
+        "title": "Humidifier Kauf Plug IP",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "192.168.0.64"
+      },
+      "humidifier_port": {
+        "title": "Humidifier Kauf Plug Port",
+        "type": "string",
+        "required": true,
+        "default": "80"
       }
     }
   }
