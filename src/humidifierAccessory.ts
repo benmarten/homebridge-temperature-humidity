@@ -1,7 +1,6 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge'
 import { ClimateHomebridgePlatform } from './platform'
 import { request } from 'http'
-import { HUMIDIFIER_IP, HUMIDIFIER_PORT } from './settings'
 
 export class HumidifierAccessory {
   private service: Service
@@ -35,6 +34,8 @@ export class HumidifierAccessory {
       .getCharacteristic(this.platform.Characteristic.On)
       .onSet(this.setOn.bind(this))
       .onGet(this.getOn.bind(this))
+
+    this.platform.config
   }
 
   async setOn(value: CharacteristicValue) {
@@ -42,8 +43,8 @@ export class HumidifierAccessory {
 
     const req = request(
       {
-        hostname: HUMIDIFIER_IP,
-        port: HUMIDIFIER_PORT,
+        hostname: this.platform.config.humidifier_ip,
+        port: this.platform.config.humidifier_port,
         path: `/switch/kauf_plug/turn_${this.states.on ? 'on' : 'off'}`,
         method: 'POST',
       },
@@ -60,11 +61,13 @@ export class HumidifierAccessory {
   }
 
   async getOn(): Promise<CharacteristicValue> {
+    this.platform.log.debug('Humidifier On ->', this.platform.config)
+
     return new Promise((resolve, reject) => {
       const req = request(
         {
-          hostname: HUMIDIFIER_IP,
-          port: HUMIDIFIER_PORT,
+          hostname: this.platform.config.humidifier_ip,
+          port: this.platform.config.humidifier_port,
           path: '/switch/kauf_plug',
           method: 'GET',
         },

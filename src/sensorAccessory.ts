@@ -1,7 +1,6 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge'
 import { ClimateHomebridgePlatform } from './platform'
 import { request } from 'http'
-import { SENSOR_IP, SENSOR_PORT } from './settings'
 
 export class SensorAccessory {
   private temperatureService: Service
@@ -51,8 +50,8 @@ export class SensorAccessory {
     return new Promise((resolve, reject) => {
       const req = request(
         {
-          hostname: SENSOR_IP,
-          port: SENSOR_PORT,
+          hostname: this.platform.config.sensor_ip,
+          port: this.platform.config.sensor_port,
           path: '/',
           method: 'GET',
         },

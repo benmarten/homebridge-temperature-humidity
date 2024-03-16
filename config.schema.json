@@ -16,6 +16,18 @@
         "type": "string",
         "required": true,
         "default": "80"
+      },
+      "sensor_ip": {
+        "title": "Sensor IP",
+        "type": "string",
+        "required": true,
+        "default": "192.168.0.165"
+      },
+      "sensor_port": {
+        "title": "Sensor Port",
+        "type": "string",
+        "required": true,
+        "default": "8080"
       }
     }
   }
