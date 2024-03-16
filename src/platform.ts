@@ -10,6 +10,7 @@ import {
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
 import { HumidifierAccessory } from './humidifierAccessory'
+import { SensorAccessory } from './sensorAccessory'
 
 /**
  * HomebridgePlatform
@@ -67,6 +68,10 @@ export class ClimateHomebridgePlatform implements DynamicPlatformPlugin {
         uniqueId: 'humidifier',
         displayName: 'Humidifier',
       },
+      {
+        uniqueId: 'sensor',
+        displayName: 'Sensor',
+      },
     ]
 
     // loop over the discovered devices and register each one if it has not already been registered
@@ -83,47 +88,31 @@ export class ClimateHomebridgePlatform implements DynamicPlatformPlugin {
       )
 
       if (existingAccessory) {
-        // the accessory already exists
         this.log.info(
           'Restoring existing accessory from cache:',
           existingAccessory.displayName
         )
-
-        // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
-        // existingAccessory.context.device = device;
-        // this.api.updatePlatformAccessories([existingAccessory]);
-
-        // create the accessory handler for the restored accessory
-        // this is imported from `platformAccessory.ts`
-        new HumidifierAccessory(this, existingAccessory)
-
-        // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
-        // remove platform accessories when no longer present
-        // this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
-        // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
+        this._getAccesory(existingAccessory.displayName, existingAccessory)
       } else {
-        // the accessory does not yet exist, so we need to create it
         this.log.info('Adding new accessory:', device.displayName)
-
-        // create a new accessory
         const accessory = new this.api.platformAccessory(
           device.displayName,
           uuid
         )
-
-        // store a copy of the device object in the `accessory.context`
-        // the `context` property can be used to store any data about the accessory you may need
         accessory.context.device = device
-
-        // create the accessory handler for the newly create accessory
-        // this is imported from `platformAccessory.ts`
-        new HumidifierAccessory(this, accessory)
-
-        // link the accessory to your platform
+        this._getAccesory(accessory.displayName, accessory)
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [
           accessory,
         ])
       }
+    }
+  }
+
+  _getAccesory(displayName: string, accessory) {
+    if (displayName == 'Humidifier') {
+      new HumidifierAccessory(this, accessory)
+    } else if (displayName == 'Sensor') {
+      new SensorAccessory(this, accessory)
     }
   }
 }
